@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:sales/add_barang.dart';
+import 'package:sales/caripelanggan.dart';
 import 'package:sales/detail_barang.dart';
 import 'package:sales/themes/colors.dart';
 
@@ -17,6 +18,8 @@ class AddOrder extends StatefulWidget {
 }
 
 class _AddOrderState extends State<AddOrder> {
+  String? dropdownValue;
+
   DateTime _selectedDate2 = DateTime.now();
   String _formattedDate2 = "";
   String _date2 = "";
@@ -190,23 +193,30 @@ class _AddOrderState extends State<AddOrder> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: TextFormField(
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(
-                              width: 1,
-                              style: BorderStyle.none,
-                              color: darkText,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                        padding: const EdgeInsets.only(top: 10),
+                        child: FutureBuilder<List<String>>(
+                            future: servicesUser.getAllNamaPelanggan(),
+                            builder: ((context, snapshot) {
+                              if (snapshot.hasData) {
+                                var data = snapshot.data!;
+                                return DropdownButton(
+                                  value: dropdownValue ?? data[0],
+                                  items: data.map((String items) {
+                                    return DropdownMenuItem(
+                                      child: Text(items),
+                                      value: items,
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      dropdownValue = newValue!;
+                                    });
+                                  },
+                                );
+                              } else {
+                                return const CircularProgressIndicator();
+                              }
+                            }))),
                     Padding(
                       padding: const EdgeInsets.only(top: 15.0),
                       child: Text(

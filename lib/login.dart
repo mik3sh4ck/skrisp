@@ -13,10 +13,16 @@ import 'package:sales/homeAdmin.dart';
 import 'package:sales/main.dart';
 import 'package:sales/models/apis.dart';
 import 'package:sales/themes/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 bool hidePass = true;
 final TextEditingController controllerUsername = TextEditingController();
 final TextEditingController controllerPassword = TextEditingController();
+
+addBoolToSF() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool('isLoggedInAdmin', true);
+}
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -40,8 +46,6 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   void dispose() {
-    controllerUsername.dispose();
-    controllerPassword.dispose();
     super.dispose();
   }
 
@@ -165,13 +169,20 @@ class _AuthPageState extends State<AuthPage> {
                             onPressed: () async {
                               getAuth(controllerUsername.text,
                                       controllerPassword.text)
-                                  .then((value) {
+                                  .then((value) async {
                                 if (value) {
+                                  SharedPreferences pref =
+                                      await SharedPreferences.getInstance();
+                                  pref.setBool("isLoggedInSales", true);
+                                  pref.setBool("isLoggedInAdmin", false);
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                          HomePage(),
+                                          HomePage(
+                                        adminLogged: false,
+                                        salesLogged: true,
+                                      ),
                                     ),
                                   );
                                 } else {
@@ -216,13 +227,21 @@ class _AuthPageState extends State<AuthPage> {
                             onPressed: () async {
                               getAuthAdmin(controllerUsername.text,
                                       controllerPassword.text)
-                                  .then((value) {
+                                  .then((value) async {
                                 if (value) {
+                                  SharedPreferences pref =
+                                      await SharedPreferences.getInstance();
+
+                                  pref.setBool("isLoggedInAdmin", true);
+                                  pref.setBool("isLoggedInSales", false);
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                          HomeAdmin(),
+                                          HomePage(
+                                        adminLogged: true,
+                                        salesLogged: false,
+                                      ),
                                     ),
                                   );
                                 } else {

@@ -103,4 +103,21 @@ class ServicesUser {
       throw Exception("Gagal mengambil data");
     }
   }
+
+  Future<List<String>> getAllNamaPelanggan() async {
+    List<String> items = [];
+    final response =
+        await http.get(Uri.parse("${_linkpath}plgn/showpelanggan"));
+    if (response.statusCode == 200) {
+      var jsonRespStatus = json.decode(response.body)['status'];
+      var jsonRespData = json.decode(response.body)['data'];
+      for (var element in jsonRespData) {
+        items.add(element["nama_toko"]);
+      }
+
+      return items;
+    } else {
+      throw Exception("Gagal mengambil data");
+    }
+  }
 }

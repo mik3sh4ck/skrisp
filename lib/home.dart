@@ -7,9 +7,11 @@ import 'package:sales/caripelanggan.dart';
 import 'package:sales/datapelanggan.dart';
 import 'package:sales/detail_barang.dart';
 import 'package:sales/detail_transaksi.dart';
+import 'package:sales/login.dart';
 import 'package:sales/retur.dart';
 import 'package:sales/themes/colors.dart';
 import 'package:sales/transaksi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'global.dart';
 
 class Home1 extends StatefulWidget {
@@ -186,6 +188,21 @@ class _Home1State extends State<Home1> {
                           iconPlace: "abc",
                           text: "Retur",
                           routePage: Retur(),
+                        ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(cancel)),
+                          onPressed: () async {
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setBool("isLoggedInSales", false);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AuthPage()));
+                          },
+                          child: Text("Logout"),
                         ),
                       ],
                     ),

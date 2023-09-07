@@ -7,10 +7,12 @@ import 'package:sales/caripelanggan.dart';
 import 'package:sales/datapelanggan.dart';
 import 'package:sales/detail_barang.dart';
 import 'package:sales/detail_transaksi.dart';
+import 'package:sales/login.dart';
 import 'package:sales/retur.dart';
 import 'package:sales/themes/colors.dart';
 import 'package:sales/trackingSales.dart';
 import 'package:sales/transaksi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'global.dart';
 
 class HomeAdmin extends StatefulWidget {
@@ -21,6 +23,12 @@ class HomeAdmin extends StatefulWidget {
 }
 
 class _HomeAdminState extends State<HomeAdmin> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final deviceWidth = MediaQuery.of(context).size.width;
@@ -57,24 +65,17 @@ class _HomeAdminState extends State<HomeAdmin> {
                     ),
                   ],
                 ),
-                GestureDetector(
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.location_on_sharp,
-                        color: darkText,
-                        size: 25,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        "Madiun",
-                        style: GoogleFonts.oxygen(
-                            fontSize: 16,
-                            color: darkText,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(cancel)),
+                  onPressed: () async {
+                    final SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.setBool("isLoggedInAdmin", false);
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => AuthPage()));
+                  },
+                  child: Text("Logout"),
                 )
               ],
             ),

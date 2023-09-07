@@ -192,7 +192,7 @@ class TransactionBox extends StatelessWidget {
                               fontWeight: FontWeight.bold, fontSize: 26),
                         ),
                         Text(
-                          "${alamat}, ${kota}, ${provinsi}",
+                          "${Alamat}, ${kota}, ${provinsi}",
                           style: TextStyle(),
                         ),
                         Text(
