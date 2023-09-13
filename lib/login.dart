@@ -50,10 +50,13 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Future getAuth(username, password) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
     var response = await servicesUser.getAuth(username, password);
     if (response[0] != 404) {
       idUser = response[1]['id_user'].toString();
       NamaUser = response[1]['nama_user'].toString();
+      pref.setString("id_user", idUser);
+      pref.setString("nama_user", NamaUser);
       return true;
     } else {
       return false;
@@ -61,10 +64,13 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Future getAuthAdmin(username, password) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
     var response = await servicesUser.getAuthAdmin(username, password);
     if (response[0] != 404) {
       idUser = response[1]['id_user'].toString();
       NamaUser = response[1]['nama_user'].toString();
+      pref.setString("id_user", idUser);
+      pref.setString("nama_user", NamaUser);
       return true;
     } else {
       return false;
@@ -173,16 +179,13 @@ class _AuthPageState extends State<AuthPage> {
                                 if (value) {
                                   SharedPreferences pref =
                                       await SharedPreferences.getInstance();
-                                  pref.setBool("isLoggedInSales", true);
-                                  pref.setBool("isLoggedInAdmin", false);
+                                  pref.setString("role", "sales");
+                                  roleUser = pref.getString("role").toString();
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                          HomePage(
-                                        adminLogged: false,
-                                        salesLogged: true,
-                                      ),
+                                          HomePage(),
                                     ),
                                   );
                                 } else {
@@ -232,16 +235,13 @@ class _AuthPageState extends State<AuthPage> {
                                   SharedPreferences pref =
                                       await SharedPreferences.getInstance();
 
-                                  pref.setBool("isLoggedInAdmin", true);
-                                  pref.setBool("isLoggedInSales", false);
+                                  pref.setString("role", "admin");
+                                  roleUser = pref.getString("role").toString();
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                          HomePage(
-                                        adminLogged: true,
-                                        salesLogged: false,
-                                      ),
+                                          HomePage(),
                                     ),
                                   );
                                 } else {

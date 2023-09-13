@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:sales/add_order.dart';
+import 'package:sales/add_pelanggan.dart';
 import 'package:sales/caripelanggan.dart';
 import 'package:sales/detail_transaksi.dart';
 import 'package:sales/themes/colors.dart';
@@ -39,8 +40,8 @@ class _DataPelangganState extends State<DataPelanggan> {
       home: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: ((context) => AddOrder())));
+            Navigator.push(context,
+                MaterialPageRoute(builder: ((context) => AddDataPelanggan())));
           },
           child: const Icon(Icons.add),
         ),
@@ -219,7 +220,9 @@ class TransactionBox extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => DetailTransaksi()));
+                          builder: (context) => DetailTransaksi(
+                                id_transaksi: 7,
+                              )));
                 },
                 child: Container(
                   decoration: BoxDecoration(

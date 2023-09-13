@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sales/add_sales.dart';
 import 'package:sales/detail_transaksi.dart';
 import 'package:sales/global.dart';
 import 'package:sales/models/apis.dart';
@@ -142,6 +143,10 @@ class _CariSalesPageState extends State<CariSalesPage> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => AddSalesPage()));
+      }),
       appBar: AppBar(
         backgroundColor: lightText,
         centerTitle: true,
@@ -536,7 +541,9 @@ class _CariSalesPageState extends State<CariSalesPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DetailTransaksi()));
+                            builder: (context) => DetailTransaksi(
+                                  id_transaksi: 7,
+                                )));
                   },
                   child: Container(
                     decoration: BoxDecoration(

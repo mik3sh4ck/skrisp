@@ -3,3 +3,4 @@ String idUser = "";
 String NamaUser = "";
 bool? isLoggenIn1;
 bool? isLoggenIn2;
+String roleUser = "";

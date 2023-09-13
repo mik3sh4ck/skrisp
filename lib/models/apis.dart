@@ -89,6 +89,52 @@ class ServicesUser {
     }
   }
 
+  Future<List> showOrderDetail(idOrder) async {
+    List items = [];
+    final response = await http
+        .get(Uri.parse("${_linkpath}ord/showorderdetail?id_order=${idOrder}"));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      var jsonRespStatus = json.decode(response.body)['status'];
+      var jsonRespData = json.decode(response.body)['data'];
+      items = jsonRespData;
+      print(items);
+      return items;
+    } else {
+      throw Exception("Gagal mengambil data");
+    }
+  }
+
+  Future<List> showOrderDetailBarangOnly(idOrder) async {
+    List items = [];
+    final response = await http
+        .get(Uri.parse("${_linkpath}ord/showorderdetail?id_order=${idOrder}"));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      var jsonRespStatus = json.decode(response.body)['status'];
+      var jsonRespData = json.decode(response.body)['data'];
+      items = jsonRespData[0]["detail_Order"];
+      print(items);
+      return items;
+    } else {
+      throw Exception("Gagal mengambil data");
+    }
+  }
+
+  Future<List> showOrderAdmin() async {
+    List items = [];
+    final response =
+        await http.get(Uri.parse("${_linkpath}ord/showheaderorderadmin"));
+    if (response.statusCode == 200) {
+      var jsonRespStatus = json.decode(response.body)["status"];
+      var jsonRespData = json.decode(response.body)["data"];
+      items = jsonRespData;
+      return items;
+    } else {
+      throw Exception("Gagal mengambil data");
+    }
+  }
+
   Future<List> showPelanggan() async {
     List items = [];
     final response =
@@ -116,6 +162,32 @@ class ServicesUser {
       }
 
       return items;
+    } else {
+      throw Exception("Gagal mengambil data");
+    }
+  }
+
+  Future addDataPerlanggan(
+      nama, alamat, nomor_hp, kota, provinsi, nama_penanggungjawab) async {
+    final response = await http.post(Uri.parse(
+        "${_linkpath}plgn/savepelanggan?nama=${nama}&no_telp=${nomor_hp}&alamat=${alamat}&kota=${kota}&provinsi=${provinsi}&nama_penanggungjawab=${nama_penanggungjawab}"));
+    if (response.statusCode == 200) {
+      var jsonRespStatus = json.decode(response.body)['status'];
+      var jsonRespData = json.decode(response.body)['data'];
+      return jsonRespStatus;
+    } else {
+      throw Exception("Gagal mengambil data");
+    }
+  }
+
+  Future addDataSales(
+      nama, alamat, nomor_hp, bank, no_rek, username, password) async {
+    final response = await http.post(Uri.parse(
+        "${_linkpath}sales/savesales?nama=${nama}&alamat=${alamat}&nomor_hp=${nomor_hp}&bank=${bank}&no_rekening=${no_rek}&username=${username}&password=${password}"));
+    if (response.statusCode == 200) {
+      var jsonRespStatus = json.decode(response.body)['status'];
+      var jsonRespData = json.decode(response.body)['data'];
+      return jsonRespStatus;
     } else {
       throw Exception("Gagal mengambil data");
     }

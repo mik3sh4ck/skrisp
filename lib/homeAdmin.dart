@@ -8,10 +8,12 @@ import 'package:sales/datapelanggan.dart';
 import 'package:sales/detail_barang.dart';
 import 'package:sales/detail_transaksi.dart';
 import 'package:sales/login.dart';
+import 'package:sales/main.dart';
 import 'package:sales/retur.dart';
 import 'package:sales/themes/colors.dart';
 import 'package:sales/trackingSales.dart';
 import 'package:sales/transaksi.dart';
+import 'package:sales/transaksiAdmin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'global.dart';
 
@@ -71,7 +73,9 @@ class _HomeAdminState extends State<HomeAdmin> {
                   onPressed: () async {
                     final SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                    prefs.setBool("isLoggedInAdmin", false);
+                    prefs.setString("role", "");
+                    prefs.setString("id_user", "");
+                    prefs.setString("nama_user", "");
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => AuthPage()));
                   },
@@ -141,6 +145,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         RoundedButtonWithIconAndText(
                           iconPlace: "abc",
@@ -155,7 +160,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                         RoundedButtonWithIconAndText(
                           iconPlace: "abc",
                           text: "Pesanan",
-                          routePage: Transaksi(),
+                          routePage: TransaksiAdmin(),
                         ),
                         RoundedButtonWithIconAndText(
                           iconPlace: "abc",
@@ -168,6 +173,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         RoundedButtonWithIconAndText(
                           iconPlace: "abc",

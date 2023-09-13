@@ -11,19 +11,19 @@ import 'package:sales/themes/colors.dart';
 
 import 'package:dropdown_search/dropdown_search.dart';
 
-class Transaksi extends StatefulWidget {
-  const Transaksi({super.key});
+class TransaksiAdmin extends StatefulWidget {
+  const TransaksiAdmin({super.key});
 
   @override
-  State<Transaksi> createState() => _TransaksiState();
+  State<TransaksiAdmin> createState() => _TransaksiAdminState();
 }
 
-class _TransaksiState extends State<Transaksi> {
+class _TransaksiAdminState extends State<TransaksiAdmin> {
   late Future listTransaksi;
 
   @override
   void initState() {
-    listTransaksi = servicesUser.showHeaderOrder(idUser);
+    listTransaksi = servicesUser.showOrderAdmin();
     super.initState();
   }
 
@@ -121,7 +121,6 @@ class _TransaksiState extends State<Transaksi> {
                         itemCount: snapData.length,
                         itemBuilder: (context, index) {
                           return TransactionBox(
-                            id_order: snapData[index]["id_order"],
                             nama_toko: snapData[index]["nama_toko"],
                             kota: snapData[index]["kota"],
                             totalBarang: snapData[index]["total_barang"],
@@ -149,10 +148,8 @@ class TransactionBox extends StatelessWidget {
   final String noOrder;
   final String SubTotal;
   final String NamaSales;
-  final int id_order;
   const TransactionBox(
       {super.key,
-      required this.id_order,
       required this.nama_toko,
       required this.kota,
       required this.totalBarang,
@@ -278,7 +275,7 @@ class TransactionBox extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => DetailTransaksi(
-                                id_transaksi: id_order,
+                                id_transaksi: 7,
                               )));
                 },
                 child: Container(

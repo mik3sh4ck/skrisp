@@ -17,9 +17,8 @@ import 'package:sales/login.dart';
 import 'package:sales/themes/colors.dart';
 import 'package:sales/transaksi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'global.dart';
 
-bool? adminLoggedIn;
-bool? salesLoggedin;
 getLoginAdmin() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   //Return bool
@@ -41,13 +40,13 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  adminLoggedIn = prefs.getBool("isLoggedInAdmin");
-
-  salesLoggedin = prefs.getBool("isLoggedInSales");
+  roleUser = prefs.getString("role").toString();
+  idUser = prefs.getString("id_user").toString();
+  NamaUser = prefs.getString("nama_user").toString();
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "CITY CINEMAS",
+      title: "Tracking Salesman",
       builder: (context, child) => ResponsiveWrapper.builder(
         child,
         maxWidth: 2460,
@@ -73,20 +72,11 @@ void main() async {
         ),
       ),
       home: LayoutBuilder(builder: (context, constraints) {
-        if (adminLoggedIn == true) {
-          return HomePage(
-            adminLogged: true,
-            salesLogged: false,
-          );
+        if (roleUser == "admin" || roleUser == "sales") {
+          print(roleUser);
+          return HomePage();
         } else {
-          if (salesLoggedin == true) {
-            return HomePage(
-              adminLogged: false,
-              salesLogged: true,
-            );
-          } else {
-            return AuthPage();
-          }
+          return AuthPage();
         }
       }),
     ),
@@ -104,37 +94,26 @@ class UserAuth with ChangeNotifier {
 }
 
 class HomePage extends StatefulWidget {
-  final bool adminLogged;
-  final bool salesLogged;
-  const HomePage(
-      {Key? key, required this.adminLogged, required this.salesLogged})
-      : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() =>
-      _HomePageState(adminLogged: adminLogged, salesLogged: salesLogged);
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final bool adminLogged;
-  final bool salesLogged;
-  _HomePageState(
-      {Key? key, required this.adminLogged, required this.salesLogged});
+  _HomePageState({Key? key});
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
 
-  LevelUp() {
-    bool isAdminLogged = adminLogged;
-  }
-
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static final List<Widget> _widgetOptions = <Widget>[
-    adminLogged ? const HomeAdmin() : const Home1(),
+  static List<Widget> _widgetOptions = <Widget>[
+    roleUser == "admin" ? HomeAdmin() : Home1(),
     //Ticket1(),
     AddOrder(),
     Transaksi(),

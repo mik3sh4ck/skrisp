@@ -554,7 +554,9 @@ class _CariPelangganPageState extends State<CariPelangganPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DetailTransaksi()));
+                            builder: (context) => DetailTransaksi(
+                                  id_transaksi: 7,
+                                )));
                   },
                   child: Container(
                     decoration: BoxDecoration(

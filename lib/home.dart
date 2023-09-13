@@ -58,24 +58,19 @@ class _Home1State extends State<Home1> {
                     ),
                   ],
                 ),
-                GestureDetector(
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.location_on_sharp,
-                        color: darkText,
-                        size: 25,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        "Madiun",
-                        style: GoogleFonts.oxygen(
-                            fontSize: 16,
-                            color: darkText,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(cancel)),
+                  onPressed: () async {
+                    final SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.setString("role", "");
+                    prefs.setString("id_user", "");
+                    prefs.setString("nama_user", "");
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => AuthPage()));
+                  },
+                  child: Text("Logout"),
                 )
               ],
             ),
@@ -141,6 +136,7 @@ class _Home1State extends State<Home1> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         RoundedButtonWithIconAndText(
                           iconPlace: "abc",
@@ -168,6 +164,7 @@ class _Home1State extends State<Home1> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         RoundedButtonWithIconAndText(
                           iconPlace: "abc",
@@ -196,7 +193,10 @@ class _Home1State extends State<Home1> {
                           onPressed: () async {
                             final SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
-                            prefs.setBool("isLoggedInSales", false);
+                            prefs.setString("role", "");
+                            prefs.setString("role", "");
+                            prefs.setString("id_user", "");
+                            prefs.setString("nama_user", "");
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
