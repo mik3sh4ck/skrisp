@@ -5,14 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:sales/add_order.dart';
 import 'package:sales/detail_transaksi.dart';
 import 'package:sales/models/apis.dart';
+import 'package:sales/models/orderDetail.dart';
 import 'package:sales/models/showStock.dart';
 import 'package:sales/themes/colors.dart';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'global.dart';
 import 'package:path/path.dart' as path;
+
+List<DetailOrderBarang> detailOrderBarang = [
+  DetailOrderBarang(jenisUkuran: "M", jumlah: 10, satuan: "pcs"),
+  DetailOrderBarang(jenisUkuran: "L", jumlah: 10, satuan: "pcs")
+];
 
 class AddBarangTransaksi extends StatefulWidget {
   const AddBarangTransaksi({super.key});
@@ -1091,7 +1098,11 @@ class _AddBarangTransaksiState extends State<AddBarangTransaksi> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              _showConfirmationDialog(context);
+                                              _showConfirmationDialog(context)
+                                                  .then((value) {
+                                                Navigator.of(this.context)
+                                                    .pop();
+                                              });
                                             },
                                             child: Wrap(
                                               crossAxisAlignment:
@@ -1153,6 +1164,14 @@ Future<void> _showConfirmationDialog(BuildContext context) async {
             TextButton(
               child: Text("confirm"),
               onPressed: () {
+                detailOrder.add(DetailOrder(
+                    idDetailOrder: 1,
+                    namaBarang: "Polo - Short - Blue",
+                    jumlah: 20,
+                    satuan: "pcs",
+                    hargaJual: 54000,
+                    subTotal: 1800000,
+                    detailOrderBarang: detailOrderBarang));
                 Navigator.of(context).pop();
               },
             ),
@@ -1161,7 +1180,9 @@ Future<void> _showConfirmationDialog(BuildContext context) async {
             "are you sure?",
           ),
         );
-      });
+      }).whenComplete(() {
+    setState() {}
+  });
 }
 
 class MyFilter extends TextInputFormatter {

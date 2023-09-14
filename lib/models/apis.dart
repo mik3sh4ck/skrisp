@@ -192,4 +192,6 @@ class ServicesUser {
       throw Exception("Gagal mengambil data");
     }
   }
+
+  Future addOrder() async {}
 }

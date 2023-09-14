@@ -112,12 +112,6 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions = <Widget>[
-    roleUser == "admin" ? HomeAdmin() : Home1(),
-    //Ticket1(),
-    AddOrder(),
-    Transaksi(),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -129,6 +123,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final deviceWidth = MediaQuery.of(context).size.width;
     final deviceHeight = MediaQuery.of(context).size.height;
+    List<Widget> widgetOptions = <Widget>[
+      roleUser == "admin" ? HomeAdmin() : Home1(),
+      //Ticket1(),
+      AddOrder(),
+      Transaksi(),
+    ];
 
     return MaterialApp(
         color: lightText,
@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          body: _widgetOptions.elementAt(_selectedIndex),
+          body: widgetOptions.elementAt(_selectedIndex),
         ));
   }
 }

@@ -6,9 +6,12 @@ import 'package:intl/intl.dart';
 import 'package:sales/add_barang.dart';
 import 'package:sales/caripelanggan.dart';
 import 'package:sales/detail_barang.dart';
+import 'package:sales/models/orderDetail.dart';
 import 'package:sales/themes/colors.dart';
 
 import 'package:dropdown_search/dropdown_search.dart';
+
+List<DetailOrder> detailOrder = [];
 
 class AddOrder extends StatefulWidget {
   const AddOrder({super.key});
@@ -35,7 +38,7 @@ class _AddOrderState extends State<AddOrder> {
       context: context,
       initialDate: _selectedDate2,
       firstDate: _selectedDate2,
-      lastDate: _selectedDate2.add(Duration(days: 6)),
+      lastDate: _selectedDate2.add(Duration(days: 10)),
       builder: (context, child) {
         return Theme(
             data: Theme.of(context).copyWith(
@@ -68,7 +71,7 @@ class _AddOrderState extends State<AddOrder> {
       context: context,
       initialDate: _selectedDate3,
       firstDate: _selectedDate3,
-      lastDate: _selectedDate3.add(Duration(days: 6)),
+      lastDate: _selectedDate3.add(Duration(days: 120)),
       builder: (context, child) {
         return Theme(
             data: Theme.of(context).copyWith(
@@ -100,6 +103,7 @@ class _AddOrderState extends State<AddOrder> {
   Widget build(BuildContext context) {
     final deviceWidth = MediaQuery.of(context).size.width;
     final deviceHeight = MediaQuery.of(context).size.height;
+
     return MaterialApp(
       color: lightText,
       debugShowCheckedModeBanner: false,
@@ -391,15 +395,19 @@ class _AddOrderState extends State<AddOrder> {
                                   scrollDirection: Axis.vertical,
                                   controller: ScrollController(),
                                   physics: const ClampingScrollPhysics(),
-                                  itemCount: 5,
+                                  itemCount: detailOrder.length,
                                   itemBuilder: (context, index) {
                                     return InkWell(
                                       onTap: () {
                                         Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DetailBarangTransaksi()));
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DetailBarangTransaksi(),
+                                                    maintainState: false))
+                                            .then((value) {
+                                          setState(() {});
+                                        });
                                       },
                                       child: Card(
                                         shape: RoundedRectangleBorder(
@@ -419,7 +427,7 @@ class _AddOrderState extends State<AddOrder> {
                                             Expanded(
                                               flex: 5,
                                               child: Text(
-                                                "Barang aaaa",
+                                                "${detailOrder[index].namaBarang}",
                                                 style: GoogleFonts.inter(
                                                   color: darkText,
                                                   fontWeight: FontWeight.w500,
@@ -431,7 +439,7 @@ class _AddOrderState extends State<AddOrder> {
                                               flex: 2,
                                               child: Center(
                                                 child: Text(
-                                                  "5",
+                                                  "${detailOrder[index].jumlah}",
                                                   textAlign: TextAlign.center,
                                                   style: GoogleFonts.inter(
                                                     color: darkText,
@@ -445,7 +453,7 @@ class _AddOrderState extends State<AddOrder> {
                                               flex: 3,
                                               child: Center(
                                                 child: Text(
-                                                  "Rp. 50.000",
+                                                  "Rp. ${detailOrder[index].hargaJual}",
                                                   textAlign: TextAlign.center,
                                                   style: GoogleFonts.inter(
                                                     color: darkText,
@@ -461,7 +469,7 @@ class _AddOrderState extends State<AddOrder> {
                                                 alignment:
                                                     Alignment.centerRight,
                                                 child: Text(
-                                                  "Rp. 250.000",
+                                                  "Rp. ${detailOrder[index].subTotal}",
                                                   textAlign: TextAlign.center,
                                                   style: GoogleFonts.inter(
                                                     color: darkText,
@@ -495,10 +503,11 @@ class _AddOrderState extends State<AddOrder> {
                                     ),
                                     onPressed: () {
                                       Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AddBarangTransaksi()));
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddBarangTransaksi()))
+                                          .whenComplete(() => setState(() {}));
                                     },
                                     child: Wrap(
                                       crossAxisAlignment:
